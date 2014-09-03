@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="Well_Mgr"
+	targetNamespace="http://ais_gbs.ibm/Service/wsdl/"
+	xmlns:http="http://schemas.xmlsoap.org/soap/http"
+	xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:ais_tns="http://ais_gbs.ibm/Service/wsdl/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+	<wsdl:types>
+		<schema targetNamespace="http://ais_gbs.ibm/Service/wsdl/"
+			xmlns="http://www.w3.org/2001/XMLSchema">
+			<element name="insert_Well_Info">
+				<complexType>
+					<sequence>
+						<element name="well_info"
+							type="ais_tns:well_info" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="insert_Well_Info_Response">
+				<complexType>
+					<sequence>
+						<element name="well_status" type="xsd:string" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="query_Well_Info">
+				<complexType>
+					<sequence>
+						<element name="well_id" type="xsd:string" />
+						<element name="location" type="xsd:string" />
+					</sequence>
+				</complexType>
+			</element>
+			<element name="query_Well_Info_Response">
+				<complexType>
+					<sequence>
+						<element name="current_date" type="xsd:date" />
+						<element name="well_info"
+							type="ais_tns:well_info" />
+					</sequence>
+				</complexType>
+			</element>
+			<complexType name="well_info">
+				<sequence>
+					<element name="well_id" type="xsd:string" />
+					<element name="well_name" type="xsd:string" />
+					<element name="well_type" type="xsd:string" />
+					<element name="well_sort" type="xsd:string" />
+				</sequence>
+			</complexType>
+		</schema>
+	</wsdl:types>
+	<wsdl:message name="msg_query_Well_Info_Response_resp">
+		<wsdl:part name="response"
+			element="ais_tns:query_Well_Info_Response" />
+	</wsdl:message>
+	<wsdl:message name="msg_query_Well_Info_req">
+		<wsdl:part name="request" element="ais_tns:query_Well_Info" />
+	</wsdl:message>
+	<wsdl:message name="msg_insert_Well_Info_Response_resp">
+		<wsdl:part name="response"
+			element="ais_tns:insert_Well_Info_Response" />
+	</wsdl:message>
+	<wsdl:message name="msg_insert_Well_Info_req">
+		<wsdl:part name="request" element="ais_tns:insert_Well_Info" />
+	</wsdl:message>
+	<wsdl:portType name="PT_Well_Mgr">
+		<wsdl:operation name="insert_Well_Info">
+			<wsdl:input name="req_insert_Well_Info"
+				message="ais_tns:msg_insert_Well_Info_req" />
+			<wsdl:output name="resp_insert_Well_Info"
+				message="ais_tns:msg_insert_Well_Info_Response_resp" />
+		</wsdl:operation>
+		<wsdl:operation name="query_Well_Info">
+			<wsdl:input name="req_query_Well_Info"
+				message="ais_tns:msg_query_Well_Info_req" />
+			<wsdl:output name="resp_query_Well_Info"
+				message="ais_tns:msg_query_Well_Info_Response_resp" />
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="B_Well_Mgr" type="ais_tns:PT_Well_Mgr">
+		<soap:binding style="document"
+			transport="http://schemas.xmlsoap.org/soap/http" />
+		<wsdl:operation name="insert_Well_Info">
+			<soap:operation soapAction="Well_Mgr/insert_Well_Info" />
+			<wsdl:input name="req_insert_Well_Info">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="resp_insert_Well_Info">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+		<wsdl:operation name="query_Well_Info">
+			<soap:operation soapAction="Well_Mgr/query_Well_Info" />
+			<wsdl:input name="req_query_Well_Info">
+				<soap:body use="literal" />
+			</wsdl:input>
+			<wsdl:output name="resp_query_Well_Info">
+				<soap:body use="literal" />
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="Well_Mgr">
+		<wsdl:port name="Well_Mgr" binding="ais_tns:B_Well_Mgr">
+			<soap:address
+				location="http://localhost:8080/Service/SOAPEngineNew/Well_Mgr" />
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

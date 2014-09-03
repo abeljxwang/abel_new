@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+	<ModelModelGroup>
+		<Model Name="DBMQueryModel" Type="com.cnpc.oms.model.DBQueryM" />
+	</ModelModelGroup>
+
+	<ServiceGroup>
+		<Service Name="DrillOperationProcess">
+			<Operation Name="query_unit_process">
+				<ModelInstance Name="DBMQueryModel1" />
+				<Parameter Name="sqltable">SHIFT_Report_Detail</Parameter>
+			</Operation>
+			<Operation Name="record_unit_process">
+				<ModelInstance Name="DBMQueryModel" />
+				<Parameter Name="sqltable">SHIFT_Report_Detail</Parameter>
+			</Operation>
+			<Operation Name="analyse_process">
+				<ModelInstance Name="DBMQueryModel" />
+				<Parameter Name="sqltable">SHIFT_Report_Detail</Parameter>
+			</Operation>
+			<Operation Name="querym">
+				<ModelInstance Name="DBMQueryModel" />
+				<Parameter Name="sqltable">SHIFT_Report_Detail</Parameter>
+			</Operation>
+			<Operation Name="querym">
+				<ModelInstance Name="DBMQueryModel" />
+				<Parameter Name="sqltable">SHIFT_Report_Detail</Parameter>
+			</Operation>
+		</Service>
+	</ServiceGroup>
+</Config>

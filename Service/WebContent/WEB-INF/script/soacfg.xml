@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+	<ModelModelGroup>
+		<Model Name="DBMQueryModel" Type="org.abel.service.soamodel.DBQuery" />
+		<Model Name="DBMQueryListModel" Type="org.abel.service.soamodel.DBQueryList" />
+
+		<Model Name="Model1" Type="org.abel.service.soamodel.BlankMD" />
+
+	</ModelModelGroup>
+
+	<ServiceGroup>
+	    <Service Name="ShoppingCart">
+			<Operation Name="op1">
+				<ModelInstance Name="DBMQueryModel" />
+				<Parameter Name="sqltable">shoppingcart</Parameter>
+  				<Parameter Name="sqlbase">select PID pid, Prince_IN price, Amount amount,Source source, DateTime_IN time from shoppingcart where SPID='#spid#'</Parameter> 
+  				<Parameter Name="sqlfield">spid</Parameter> 
+  				<Parameter Name="responsekey">pid,price,amount,source,time</Parameter> 
+  				<Parameter Name="sqlcondition">0</Parameter> 
+  			</Operation>			
+		</Service>
+		<Service Name="User_Mgr">
+			<Operation Name="op1">
+				<ModelInstance Name="DBMQueryModel" />
+				<Parameter Name="sqltable">shoppingcart</Parameter>
+  				<Parameter Name="sqlbase">select NAME name, '1234' password, USER_ID id from USERBASICINFO where USER_ID='#id#'</Parameter> 
+  				<Parameter Name="sqlfield">id</Parameter> 
+  				<Parameter Name="responsekey">name,password,id</Parameter> 
+  				<Parameter Name="sqlcondition">0</Parameter> 
+  			</Operation>
+			<Operation Name="list">
+				<ModelInstance Name="DBMQueryListModel" />
+				<Parameter Name="sqltable">Userbasicinfo</Parameter>
+  				<Parameter Name="sqlbase">select NAME name, '1234' password, USER_ID id from USERBASICINFO where USER_ID like '%#id#%'</Parameter> 
+  				<Parameter Name="sqlfield">id</Parameter> 
+  				 <Parameter Name="listkey">user_info</Parameter> 
+  				<Parameter Name="responsekey">name,password,id</Parameter> 
+  				<Parameter Name="sqlcondition">0</Parameter> 
+			</Operation>
+		</Service>
+		<Service Name="PPP">
+			<Operation Name="p1">
+				<ModelInstance Name="Model1" />
+  			</Operation>
+		</Service>
+		
+	</ServiceGroup>
+</Config>

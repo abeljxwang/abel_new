@@ -1,0 +1,5 @@
+DEBUG main org.abel.service.base.common.EIPLogger - Priority DEBUG Message
+INFO main org.abel.service.base.common.EIPLogger - Priority INFO Message
+WARN main org.abel.service.base.common.EIPLogger - Priority WARN Message
+ERROR main org.abel.service.base.common.EIPLogger - Priority ERROR Message
+FATAL main org.abel.service.base.common.EIPLogger - Priority FATAL Message

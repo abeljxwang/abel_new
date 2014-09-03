@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+
+	<!-- 1st, Define the model -->
+	<ModelModelGroup>
+		<Model Name="M_ShoppingCart" Type="com.suning.haigou.model.MGShoppingCart" Model="JSON" />
+		<Model Name="M_UserAuth" Type="com.suning.haigou.model.MUserAuth" Model="JSON" />
+		<Model Name="M_UserProfile" Type="com.suning.haigou.model.MUserProfile" Model="JSON" />
+		<Model Name="M_ProductS" Type="com.suning.haigou.model.MProductS" Model="JSON" />
+		
+		<Model Name="MGCMQuery" Type="com.suning.haigou.model.MGCMQuery" Model="JSON" />
+		<Model Name="M_CMGDBQuery" Type="com.suning.haigou.model.CMGDBQuery" Model="JSON" />
+		<Model Name="DBMQueryModel" Type="org.abel.service.soamodel.DBQuery" />
+		<Model Name="DBMQueryListModel" Type="org.abel.service.soamodel.DBQueryList" />
+		<Model Name="Model1" Type="org.abel.service.soamodel.BlankMD" />
+
+	</ModelModelGroup>
+
+	<ServiceGroup>
+
+		<Service Name="ShoppingCart">
+			<Operation Name="show" method="get">
+				<ModelInstance Name="M_ShoppingCart" />
+				<Parameter Name="collection">shoppingcart</Parameter>
+			</Operation>
+			<Operation Name="add" method="post,put">
+				<ModelInstance Name="M_ShoppingCart" />
+				<Parameter Name="collection">shoppingcart</Parameter>
+			</Operation>
+			<Operation Name="removeItem" method="post,put">
+				<ModelInstance Name="M_ShoppingCart" />
+				<Parameter Name="collection">shoppingcart</Parameter>
+			</Operation>
+			<Operation Name="changeQnty" method="post,put">
+				<ModelInstance Name="M_ShoppingCart" />
+				<Parameter Name="collection">shoppingcart</Parameter>
+			</Operation>
+		</Service>
+		<Service Name="UserMgr">
+			<Operation Name="show" method="get">
+				<ModelInstance Name="M_UserProfile" />
+				<Parameter Name="collection">UserProfile</Parameter>
+			</Operation>
+			<Operation Name="creatUser" method="post,put">
+				<ModelInstance Name="M_UserProfile" />
+				<Parameter Name="collection">UserProfile</Parameter>
+			</Operation>
+			<Operation Name="updateUser" method="post,put">
+				<ModelInstance Name="M_UserProfile" />
+				<Parameter Name="collection">UserProfile</Parameter>
+			</Operation>
+			<Operation Name="addAddress" method="post,put">
+				<ModelInstance Name="M_UserProfile" />
+				<Parameter Name="collection">UserProfile</Parameter>
+			</Operation>			
+			<Operation Name="changeAddress" method="post,put">
+				<ModelInstance Name="M_UserProfile" />
+				<Parameter Name="collection">UserProfile</Parameter>
+			</Operation>
+			<Operation Name="removeAddress" method="post,put">
+				<ModelInstance Name="M_UserProfile" />
+				<Parameter Name="collection">UserProfile</Parameter>
+			</Operation>
+		</Service>	
+		
+		
+		<Service Name="UserAuth">
+			<Operation Name="verify" method="get">
+				<ModelInstance Name="M_UserAuth" />
+				<Parameter Name="collection">User_Certification</Parameter>
+			</Operation>
+			<Operation Name="addAuthToken" method="get,post">
+				<ModelInstance Name="M_UserAuth" />
+				<Parameter Name="collection">User_Certification</Parameter>
+			</Operation>
+			<Operation Name="changePWD" method="get,post">
+				<ModelInstance Name="M_UserAuth" />
+				<Parameter Name="collection">User_Certification</Parameter>
+			</Operation>
+			
+		</Service>			
+		
+		<Service Name="Product">
+			<Operation Name="list" method="get">
+				<ModelInstance Name="M_ProductS" />
+				<Parameter Name="collection">ProductSummary</Parameter>
+			</Operation>
+			<Operation Name="add" method="get">
+				<ModelInstance Name="M_ProductS" />
+				<Parameter Name="collection">ProductSummary</Parameter>
+			</Operation>
+		</Service>
+		
+		<Service Name="CustomerSummary">
+			<Operation Name="query" method="get">
+				<ModelInstance Name="DBMQueryModelJ" />
+				<Parameter Name="sqltable">shoppingcart</Parameter>
+				<Parameter Name="sqlbase">select mname,mcname,mtype,mlength,mdesc from metadata where mname like '%#mname#%'</Parameter>
+				<Parameter Name="sqlfield">mname</Parameter>
+				<Parameter Name="listkey">mname,mcname,mtype,mlength,mdesc</Parameter>
+				<Parameter Name="responsekey">mname,mcname,mtype,mlength,mdesc</Parameter>
+				<Parameter Name="sqlcondition">0</Parameter>
+			</Operation>
+		</Service>
+		<Service Name="Sample">
+			<Operation Name="query" method="get">
+				<ModelInstance Name="MGCMQuery" />
+				<Parameter Name="collection">ProductSummary</Parameter>
+				<Parameter Name="query_base">{"product_id": {"$in":["#product_id#"]}} </Parameter>
+				<Parameter Name="q_field">product_id</Parameter>
+				<Parameter Name="responsekey">product</Parameter>
+				</Operation>
+
+			<Operation Name="qlike" method="get">
+				<ModelInstance Name="MGCMQuery" />
+				<Parameter Name="collection">ProductSummary</Parameter>
+				<Parameter Name="query_base">{"product_id":{"$regex" : ".*((?i)#product_id#).*"}} </Parameter>
+				<Parameter Name="q_field">product_id</Parameter>
+				<Parameter Name="responsekey">product</Parameter>
+			</Operation>
+		</Service>		
+	</ServiceGroup>
+</Config>
