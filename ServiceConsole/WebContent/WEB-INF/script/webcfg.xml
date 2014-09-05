@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+	<Models>
+		<Model Name="CMDataQueryModelMP" Type="org.abel.webapp.commodel.CmddbQueryMP" />
+		<Model Name="ServiceCard" Type="org.abel.webapp.commodel.ServCard" />
+		<Model Name="CMDataQueryModel" Type="org.abel.webapp.standardmodel.CmddbQuery" />
+		<Model Name="CMDataInsertModel" Type="org.abel.webapp.standardmodel.CmddbInsert" />
+		<Model Name="CMDataDeleteModel" Type="org.abel.webapp.standardmodel.CmddbDelete" />
+		<Model Name="CMDataUpdateModel" Type="org.abel.webapp.standardmodel.CmddbUpdate" />
+
+		<Model Name="BlankModel" Type="org.abel.webapp.commodel.BlankModel" />
+		<Model Name="CMDataXAModel" Type="org.abel.webapp.commodel.CmddbXA" />
+		<Model Name="LModel" Type="com.cnpc.oms.model.PocLogonModel" />
+		<Model Name="AuToCompleteModel" Type="org.abel.webapp.commodel.AutoColplete" />
+	</Models>
+
+	<FunctionGroup>
+		<Function FunctionID="SOAAdmin">
+			<Portlet Name="Controller" DefaultAction="init" />
+			<ActionMapping DefaultAction="init">
+				<Action Name="init">
+					<ModelInstance Name="LModel" />
+					<Forward Name="a" Path="/page/jsp/soaadmin/cbm.jsp" />
+				</Action>
+				<Action Name="ttest">
+					<ModelInstance Name="BlankModel" />
+					<Forward Name="a" Path="/page/jsp/soaadmin/test.jsp" />
+				</Action>
+				
+				<Action Name="queryM">
+					<ModelInstance Name="CMDataQueryModelMP" />
+					<Parameter Name="sqltable">MetaData</Parameter>
+					<Parameter Name="sqlbase">
+						 select * from(select row_number() over (order by mname ) as SN, mname,mcname,mtype,mlength,mdesc from metadata where mname like '%#mname#%') mset 
+					</Parameter>
+					<Parameter Name="sqlfield">
+						SN,mname,mcname,mtype,mlength,mdesc
+					</Parameter>
+					<Parameter Name="fieldname">
+						SN,名称,中文名(中文短名),类型,长度,描述
+					</Parameter>
+					<Parameter Name="sqlcondition">1</Parameter>
+					<Forward Name="a"
+						Path="/page/jsp/soaadmin/meta_index.jsp" />
+				</Action>
+				
+				<Action Name="queryM_List">
+					<ModelInstance Name="CMDataQueryModelMP" />
+					<Parameter Name="sqltable">
+						MessageElement
+					</Parameter>
+					<Parameter Name="sqlbase">
+						select * from(select row_number() over (order by A.EID) as SN, A.EID,A.ENAME,A.CNAME,A.DOMAINID from MSGELEMENT A where A.TYPE='MSG' AND A.ENAME like '%#ENAME#%' order by A.EID) mset 
+					</Parameter>
+					<Parameter Name="sqlfield">
+						SN,EID,ENAME,CNAME,DOMAINID
+					</Parameter>
+					<Parameter Name="fieldname">
+						SN,EID,名称,中文描述,分类
+					</Parameter>
+					<Parameter Name="sqlcondition">2</Parameter>
+					<Forward Name="a"
+						Path="/page/jsp/soaadmin/serv_msg_info.jsp" />
+				</Action>
+				<Action Name="queryME_List">
+					<ModelInstance Name="CMDataQueryModelMP" />
+					<Parameter Name="sqltable">
+						MessageElement
+					</Parameter>
+					<Parameter Name="sqlbase">
+						 select * from(select row_number() over (order by A.EID) as SN, A.EID,A.ENAME,A.CNAME,A.DOMAINID from MSGELEMENT A where A.TYPE='CPX' AND A.ENAME like '%#ENAME#%' order by A.EID) mset
+					</Parameter>
+					<Parameter Name="sqlfield">
+						SN,EID,ENAME,CNAME
+					</Parameter>
+					<Parameter Name="fieldname">
+						SN,EID,名称,中文描述
+					</Parameter>
+					<Parameter Name="sqlcondition">2</Parameter>
+					<Forward Name="a"
+						Path="/page/jsp/soaadmin/serv_msge_info.jsp" />
+				</Action>
+
+				<Action Name="querySLst">
+					<ModelInstance Name="CMDataQueryModelMP" />
+					<Parameter Name="sqltable">
+						ServiceList/ServiceOperation
+					</Parameter>
+					<Parameter Name="sqlbase">
+							select * from (select row_number() over (order by ServiceID) as SN,ServiceID, Servicename, endpoint from servicelist where serviceid like '%#serviceid#%') mset
+					</Parameter>
+					<Parameter Name="sqlfield">
+						SN,serviceid,,servicename,endpoint
+					</Parameter>
+					<Parameter Name="fieldname">
+						SN, 名称,中文名,ENDPOINT
+					</Parameter>
+					<Parameter Name="sqlcondition">1</Parameter>
+					<Forward Name="a"
+						Path="/page/jsp/soaadmin/serv_index.jsp" />
+				</Action>
+				<Action Name="queryC">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="sqltable">
+						ServiceList/ServiceOperation
+					</Parameter>
+					<Parameter Name="maxcols">1000</Parameter>
+					
+					<Parameter Name="sqlbase">
+						select catalogid cid, up_catalog UP, catalogname
+						c_name,'C' c_DESC from SERVICECATALOG union select
+						-1 cid, A.CATALOGID UP, B.ServiceName c_name,
+						A.ServiceID c_DESC from CATALOGCONTENT A,
+						SERVICELIST B where A.ServiceID=B.ServiceID
+						order by cid
+					</Parameter>
+					<Forward Name="a" Path="/page/jsp/soaadmin/catalog_index.jsp" />
+				</Action>
+				<Action Name="addC">
+					<ModelInstance Name="CMDataInsertModel" />
+					<Parameter Name="sqltable">
+						SERVICECATALOG
+					</Parameter>
+					<Parameter Name="sqlbase">
+						insert into SERVICECATALOG (catalogid,
+						up_catalog, catalogname,biz_layer,biz_chain_id,catalogesc) values ((select (case
+						when max(b.catalogid)+1 is null then 10 else
+						max(b.catalogid)+1 end ) from
+						SERVICECATALOG b),#up_catalog#, '#catalogname#',#biz_layer#,#biz_chain_id#,'#catalogesc#')
+					</Parameter>
+					<Parameter Name="sqlfield">
+						up_catalog,catalogname,biz_layer,biz_chain_id,catalogesc
+					</Parameter>
+					<Parameter Name="fieldname">
+						up_catalog,catalogname,biz_layer,biz_chain_id,catalogesc
+					</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Type="action" Path="queryC" />
+				</Action>
+
+
+				<!-- add by zdy -->
+				<!-- del catalog -->
+				<Action Name="delC">
+					<ModelInstance Name="CMDataDeleteModel" />
+					<Parameter Name="sqltable">
+						SERVICECATALOG
+					</Parameter>
+					<Parameter Name="sqlbase">
+						delete from SERVICECATALOG where
+						catalogname='#catalogname#' and catalogid =
+						#catalogid#
+					</Parameter>
+					<Parameter Name="sqlfield">
+						catalogname,catalogid
+					</Parameter>
+					<Parameter Name="fieldname">
+						catalogname,catalogid
+					</Parameter>
+					<Parameter Name="sqlcondition">0,1</Parameter>
+					<Forward Name="a" Type="action" Path="queryC" />
+				</Action>
+				<!-- update catalog -->
+				<Action Name="updateC">
+					<ModelInstance Name="CMDataUpdateModel" />
+					<Parameter Name="sqltable">
+						SERVICECATALOG
+					</Parameter>
+					<Parameter Name="sqlbase">
+						UPDATE SERVICECATALOG SET
+						catalogname='#catalogname#' where catalogid =
+						#catalogid#
+					</Parameter>
+					<Parameter Name="sqlfield">
+						catalogname,catalogid
+					</Parameter>
+					<Parameter Name="fieldname">
+						catalogname,catalogid
+					</Parameter>
+					<Parameter Name="sqlcondition">0,1</Parameter>
+					<Forward Name="a" Type="action" Path="queryC" />
+				</Action>
+				<!-- add service to catalog -->
+				<Action Name="addS2C">
+					<ModelInstance Name="CMDataInsertModel" />
+					<Parameter Name="sqltable">
+						catalogcontent
+					</Parameter>
+					<Parameter Name="sqlbase">
+						insert into catalogcontent (serviceid,
+						catalogid) values ('#service_s#',#up_catalog#)
+					</Parameter>
+					<Parameter Name="sqlfield">
+						service_s,up_catalog
+					</Parameter>
+					<Parameter Name="fieldname">
+						service_s,up_catalog
+					</Parameter>
+					<Parameter Name="sqlcondition">0,1</Parameter>
+					<Forward Name="a" Type="action" Path="queryC" />
+				</Action>
+				<!-- del service from catalog -->
+				<Action Name="delS2C">
+					<ModelInstance Name="CMDataInsertModel" />
+					<Parameter Name="sqltable">
+						catalogcontent
+					</Parameter>
+					<Parameter Name="sqlbase">
+						delete from catalogcontent where
+						serviceid='#service_s#' and catalogid =
+						#up_catalog#
+					</Parameter>
+					<Parameter Name="sqlfield">
+						service_s,up_catalog
+					</Parameter>
+					<Parameter Name="fieldname">
+						service_s,up_catalog
+					</Parameter>
+					<Parameter Name="sqlcondition">0,1</Parameter>
+					<Forward Name="a" Type="action" Path="queryC" />
+				</Action>
+
+				<!-- CBM-->
+				<Action Name="queryCBM">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="maxcols">1000</Parameter>
+					<Parameter Name="sqltable">
+						ServiceList/ServiceOperation
+					</Parameter>
+					<Parameter Name="sqlbase">
+						select  catalogid,up_catalog,catalogname,catalogesc,biz_layer,'B'  from SERVICECATALOG where up_catalog is null
+						union
+						select  catalogid,up_catalog,catalogname,catalogesc,biz_layer,'C'  from SERVICECATALOG where up_catalog in (select catalogid  from SERVICECATALOG where up_catalog is null )
+						order by catalogid
+					
+					</Parameter>
+					<Parameter Name="sqlfield">
+						catalogid,up_catalog,catalogname,catalogesc,biz_layer,biz_chain_id
+					</Parameter>
+					<Parameter Name="fieldname">
+						catalogid,up_catalog,catalogname,catalogesc,biz_layer,biz_chain_id
+					</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a"
+						Path="/page/jsp/soaadmin/catalog_cbm.jsp" />
+				</Action>
+				
+				<Action Name="queryCBM2">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="maxcols">1000</Parameter>
+					<Parameter Name="sqltable">
+						ServiceList/ServiceOperation
+					</Parameter>
+					<Parameter Name="sqlbase">
+						select  catalogid,up_catalog,catalogname,catalogesc,biz_layer,'B'  from SERVICECATALOG where up_catalog =#catalogid#
+						union
+						select  catalogid,up_catalog,catalogname,catalogesc,biz_layer,'C'  from SERVICECATALOG where up_catalog in (select catalogid  from SERVICECATALOG where up_catalog =#catalogid# )
+						order by catalogid
+					
+					</Parameter>
+					<Parameter Name="sqlfield">
+						catalogid,up_catalog,catalogname,catalogesc,biz_layer,biz_chain_id
+					</Parameter>
+					<Parameter Name="fieldname">
+						catalogid,up_catalog,catalogname,catalogesc,biz_layer,biz_chain_id
+					</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a"
+						Path="/page/jsp/soaadmin/catalog_cbm.jsp" />
+				</Action>
+
+
+				<Action Name="queryMG">
+					<ModelInstance Name="BlankModel" />
+					<Forward Name="a"
+						Path="/page/jsp/soaadmin/meta_index_grid.jsp" />
+				</Action>
+
+
+
+				<Action Name="queryS_Detaile">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="sqltable">
+						ServiceList/ServiceOperation
+					</Parameter>
+					<Parameter Name="sqlbase">
+						select
+						A.serviceid,A.servicename,A.servdesc,A.endpoint,B.operation_name,B.input,
+						B.output, (select ename from MSGELEMENT where eid=B.input) iname,(select ename from MSGELEMENT where eid=B.output) outname 
+						from servicelist A left join
+						serviceoperation B on A.serviceid=B.serviceid
+						where A.serviceid = '#serviceid#'
+					</Parameter>
+					<Parameter Name="sqlfield">
+						serviceid,servicename,servdesc,endpoint,operation_name,input,output,iname,outname
+					</Parameter>
+					<Parameter Name="fieldname">
+						名称,中文名,描述,ENDPOINT,操作,输入,输出,iname,outname
+					</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a"
+						Path="/page/jsp/soaadmin/serv_detailed_info.jsp" />
+				</Action>
+				<Action Name="queryS4Up">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="sqltable">
+						ServiceList/ServiceOperation
+					</Parameter>
+					<Parameter Name="sqlbase">
+						select ServiceID, Servicename, endpoint,servdesc from
+						servicelist where serviceid like '%#serviceid#%'
+					</Parameter>
+					<Parameter Name="sqlfield">
+						serviceid,servicename,endpoint,servdesc
+					</Parameter>
+					<Parameter Name="fieldname">
+						名称,中文名,ENDPOINT,描述
+					</Parameter>
+					<Parameter Name="sqlcondition">0,1,2,3</Parameter>
+					<Forward Name="a"
+						Path="/page/jsp/soaadmin/info4upd.jsp" />
+				</Action>
+				<Action Name="updateS">
+					<ModelInstance Name="CMDataUpdateModel" />
+					<Parameter Name="sqltable">ServiceList</Parameter>
+					<Parameter Name="sqlbase">
+						UPDATE ServiceList SET
+						servicename='#servicename#',endpoint='#endpoint#',servdesc='#servdesc#'
+						where serviceid='#serviceid#'
+					</Parameter>
+					<Parameter Name="sqlfield">
+						serviceid,servicename,endpoint,servdesc
+					</Parameter>
+					<Parameter Name="fieldname">
+						服务标识,服务名,ENDPOINT,描述
+					</Parameter>
+					<Parameter Name="sqlcondition">0,1,2,3</Parameter>
+					<Forward Name="info" Type="action" Path="querySLst" />
+				</Action>
+				<Action Name="delOP">
+					<ModelInstance Name="CMDataDeleteModel" />
+					<Parameter Name="sqltable">servicelist</Parameter>
+					<Parameter Name="sqlbase">
+						delete from serviceoperation where
+						serviceid='#serviceid#' and
+						operation_name='#operation_name#'
+					</Parameter>
+					<Parameter Name="sqlfield">
+						serviceid,operation_name
+					</Parameter>
+					<Parameter Name="fieldname">
+						serviceid,operation_name
+					</Parameter>
+					<Parameter Name="sqlcondition">0,1</Parameter>
+					<Forward Name="a" Type="action"
+						Path="queryS_Detaile" />
+
+				</Action>
+				<Action Name="delEM">
+					<ModelInstance Name="CMDataDeleteModel" />
+					<Parameter Name="sqltable">servicelist</Parameter>
+					<Parameter Name="sqlbase">
+						delete from MSGELEMENTSTRUCTURE where EID
+						='#EID#' and sn=#sn#
+					</Parameter>
+					<Parameter Name="sqlfield">EID,sn</Parameter>
+					<Parameter Name="fieldname">EID,sn</Parameter>
+					<Parameter Name="sqlcondition">0,1</Parameter>
+					<Forward Name="a" Type="action"
+						Path="queryM_Detaile" />
+
+				</Action>
+
+				<Action Name="queryM_Detaile">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="sqltable">
+						MessageElement
+					</Parameter>
+					<Parameter Name="sqlbase">
+						select
+						A.EID,A.ENAME,B.SN,B.MNAME,B.DF_VALUE,B.SUBEID,B.SUBFLAG,B.RPTTIME,B.ISNULL
+						from MSGELEMENT A, MSGELEMENTSTRUCTURE B where
+						A.EID= B.EID and A.EID = '#EID#'					
+					</Parameter>
+					<Parameter Name="sqlfield">
+						EID,ENAME,SN,MNAME,DF_VALUE,SUBEID,SUBFLAG,RPTTIME,ISNULL
+					</Parameter>
+					<Parameter Name="fieldname">
+						EID,名称,序号,数据元,样本数据,子级元素,是否子节点,重复次数,可空标记
+					</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a"
+						Path="/page/jsp/soaadmin/serv_msg_detail.jsp" />
+				</Action>
+
+				<Action Name="insertServ">
+					<ModelInstance Name="CMDataInsertModel" />
+					<Parameter Name="sqltable">servicelist</Parameter>
+					<Parameter Name="sqlbase">
+						insert into servicelist (ServiceID, Servicename,
+						endpoint,servdesc) values ('#ServiceID#','#Servicename#',
+						'#endpoint#','#servdesc#')
+					</Parameter>
+					<Parameter Name="sqlfield">
+						ServiceID,Servicename,endpoint,servdesc
+					</Parameter>
+					<Parameter Name="fieldname">
+						服务代码,中文名称,ENDPOINT,servdesc
+					</Parameter>
+					<Parameter Name="sqlcondition">0,1,2,3</Parameter>
+					<Forward Name="a" Type="action" Path="querySLst" />
+				</Action>
+				<Action Name="delete">
+					<ModelInstance Name="CMDataDeleteModel" />
+					<Parameter Name="sqltable">servicelist</Parameter>
+					<Parameter Name="sqlbase">
+						delete from servicelist where ServiceID='#serviceid#'
+					</Parameter>
+					<Parameter Name="sqlfield">serviceid</Parameter>
+					<Parameter Name="fieldname">serviceid</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Type="action" Path="querySLst" />
+
+				</Action>
+				<Action Name="deleteM">
+					<ModelInstance Name="CMDataDeleteModel" />
+					<Parameter Name="sqltable">servicelist</Parameter>
+					<Parameter Name="sqlbase">
+						delete from MSGELEMENT where EID='#EID#'
+					</Parameter>
+					<Parameter Name="sqlfield">EID</Parameter>
+					<Parameter Name="fieldname">EID</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Type="action" Path="queryM_List" />
+
+				</Action>
+
+				<Action Name="insertServOperationExpress">
+					<ModelInstance Name="CMDataInsertModel" />
+					<Parameter Name="sqltable">servicelist</Parameter>
+					<Parameter Name="sqlbase">
+						insert into SERVICEOPERATION
+						(SERVICEID,OPERATION_NAME,INPUT,OUTPUT,DESC)
+						values ('#serviceid#','#operation_name#',(select
+						max(EID) from msgelement where
+						ENAME='#operation_name#'), (select max(EID) from
+						msgelement where
+						ENAME='#operation_name#_response'),'')
+					</Parameter>
+					<Parameter Name="sqlfield">
+						serviceid,operation_name
+					</Parameter>
+					<Parameter Name="fieldname">服务代码,服务功能</Parameter>
+					<Parameter Name="sqlcondition">0,1</Parameter>
+					<Forward Name="a" Type="action"
+						Path="queryS_Detaile" />
+				</Action>
+
+
+				<Action Name="insertServOperation">
+					<ModelInstance Name="CMDataInsertModel" />
+					<Parameter Name="sqltable">servicelist</Parameter>
+					<Parameter Name="sqlbase">
+						insert into serviceoperation
+						(Serviceid,operation_name,input, output) values
+						('#serviceid#','#operation_name#','#input#','#output#')
+					</Parameter>
+					<Parameter Name="sqlfield">
+						serviceid,operation_name,input,output
+					</Parameter>
+					<Parameter Name="fieldname">
+						服务代码,服务功能,输入,输出
+					</Parameter>
+					<Parameter Name="sqlcondition">0,1,2,3</Parameter>
+					<Forward Name="a" Type="action"
+						Path="queryS_Detaile" />
+				</Action>
+				<Action Name="insertMsgStruc">
+					<ModelInstance Name="CMDataInsertModel" />
+					<Parameter Name="sqltable">
+						MSGELEMENTSTRUCTURE
+					</Parameter>
+					<Parameter Name="sqlbase">
+						insert into MSGELEMENTSTRUCTURE
+						(EID,SN,MNAME,DF_VALUE,ISNULL,RPTTIME,SUBFLAG)
+						values ('#EID#',(select(case when max(SN) is not
+						null then max(SN)+1 else 0 end ) from
+						MSGELEMENTSTRUCTURE where EID='#EID#'),
+						'#MNAME#',
+						'#DF_VALUE#',#ISNULL#,#RPTTIME#,#SUBFLAG#)
+					</Parameter>
+					<Parameter Name="sqlfield">
+						EID,SN,MNAME,DF_VALUE,ISNULL,RPTTIME,SUBFLAG
+					</Parameter>
+					<Parameter Name="fieldname">
+						EID,SN,MNAME,DF_VALUE,ISNULL,RPTTIME,SUBFLAG
+					</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Type="action"
+						Path="queryM_Detaile" />
+				</Action>
+				<Action Name="insertMsgStrucE">
+					<ModelInstance Name="CMDataInsertModel" />
+					<Parameter Name="sqltable">
+						MSGELEMENTSTRUCTURE
+					</Parameter>
+					<Parameter Name="sqlbase">
+						insert into MSGELEMENTSTRUCTURE
+						(EID,SN,SUBEID,DF_VALUE,ISNULL,RPTTIME,SUBFLAG)
+						values ('#EID#',(select(case when max(SN) is not
+						null then max(SN)+1 else 0 end ) from
+						MSGELEMENTSTRUCTURE where
+						EID='#EID#'),'#SUBEID#',
+						'#DF_VALUE#',#ISNULL#,#RPTTIME#,#SUBFLAG#)
+					</Parameter>
+					<Parameter Name="sqlfield">
+						EID,SN,SUBEID,MNAME,DF_VALUE,ISNULL,RPTTIME,SUBFLAG
+					</Parameter>
+					<Parameter Name="fieldname">
+						EID,SN,SUBEID,MNAME,DF_VALUE,ISNULL,RPTTIME,SUBFLAG
+					</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Type="action"
+						Path="queryM_Detaile" />
+				</Action>
+
+				<Action Name="insertElementBasic">
+					<ModelInstance Name="CMDataInsertModel" />
+					<Parameter Name="sqltable">
+						MSGELEMENTSTRUCTURE
+					</Parameter>
+					<Parameter Name="sqlbase">
+						insert into MSGELEMENT
+						(EID,ENAME,TYPE,CNAME,DOMAINID) values ( (select
+						(case when max(int(substr(eid,2)))+1 is null
+						then CONCAT('E',char(100000)) else
+						CONCAT('E',char(max(int(substr(eid,2)))+1)) end
+						) from msgelement), '#ENAME#',
+						'CPX','#CNAME#','#DOMAINID#')
+					</Parameter>
+					<Parameter Name="sqlfield">
+						EID,ENAME,TYPE,CNAME,DOMAINID
+					</Parameter>
+					<Parameter Name="fieldname">
+						EID,ENAME,TYPE,CNAME,DOMAINID
+					</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Type="action" Path="queryME_List" />
+				</Action>
+
+
+				<Action Name="insertMsgElementBasic">
+					<ModelInstance Name="CMDataInsertModel" />
+					<Parameter Name="sqltable">MSGELEMENT</Parameter>
+					<Parameter Name="sqlbase">
+						insert into MSGELEMENT (EID,ENAME,TYPE,CNAME)
+						values ((select (case when
+						max(int(substr(eid,2)))+1 is null then
+						CONCAT('E',char(100000)) else
+						CONCAT('E',char(max(int(substr(eid,2)))+1)) end
+						) from msgelement), '#ENAME#',
+						'MSG','REQ:#CNAME#'), ((select (case when
+						max(int(substr(eid,2)))+2 is null then
+						CONCAT('E',char(100001)) else
+						CONCAT('E',char(max(int(substr(eid,2)))+2)) end
+						) from msgelement), '#ENAME#_response',
+						'MSG','RESP:#CNAME#')
+					</Parameter>
+					<Parameter Name="sqlfield">
+						EID,ENAME,CNAME,DOMAINID
+					</Parameter>
+					<Parameter Name="fieldname">
+						EID,ENAME,CNAME,DOMAINID
+					</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Type="action" Path="queryM_List" />
+				</Action>
+
+				<Action Name="addOPMSG">
+					<ModelInstance Name="CMDataInsertModel" />
+					<Parameter Name="sqltable">MSGELEMENT</Parameter>
+					<Parameter Name="sqlbase">
+						insert into MSGELEMENT (EID,ENAME,TYPE,CNAME)
+						values ((select (case when
+						max(int(substr(eid,2)))+1 is null then
+						CONCAT('E',char(100000)) else
+						CONCAT('E',char(max(int(substr(eid,2)))+1)) end
+						) from msgelement), '#operation_name#',
+						'MSG','REQ:#operation_name#'), ((select (case
+						when max(int(substr(eid,2)))+2 is null then
+						CONCAT('E',char(100001)) else
+						CONCAT('E',char(max(int(substr(eid,2)))+2)) end
+						) from msgelement), '#operation_name#_response',
+						'MSG','RESP:#operation_name#')
+					</Parameter>
+					<Parameter Name="sqlfield">
+						serviceid,operation_name
+					</Parameter>
+					<Parameter Name="fieldname">
+						serviceid,operation_name
+					</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Type="action"
+						Path="insertServOperationExpress" />
+				</Action>
+
+				<!-- MetaData Management -->
+				<Action Name="queryMD" note="Query metadata list">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="sqltable">metadata</Parameter>
+					<Parameter Name="sqlbase">
+						select * from metadata where mname like
+						'%#mname#%'
+					</Parameter>
+					<Parameter Name="sqlfield">
+						mname,mcname,mtype,mlength,mdesc,dftvalue
+					</Parameter>
+					<Parameter Name="fieldname">
+						名称,中文名,类型,长度,说明,测试值
+					</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a"
+						Path="/page/jsp/soaadmin/index.jsp" />
+				</Action>
+				<Action Name="insertMD">
+					<ModelInstance Name="CMDataInsertModel" />
+					<Parameter Name="sqltable">metadata</Parameter>
+					<Parameter Name="sqlbase">
+						insert into metadata (mname,mcname,mtype,mlength,mdesc) values ('#mname#','#mcname#','#mtype#',#mlength#,'#mdesc#')
+					</Parameter>
+					<Parameter Name="sqlfield">
+						mname,mcname,mtype,mlength,mdesc
+					</Parameter>
+					<Parameter Name="fieldname">
+						元数据名,中文名,类型,长度,说明
+					</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Type="action" Path="queryM" />
+				</Action>
+				
+
+				
+				
+				<Action Name="insertform">
+					<ModelInstance Name="DBMQueryModel" />
+					<Parameter Name="sqltable">user</Parameter>
+					<Parameter Name="servicename">FL</Parameter>
+					<Parameter Name="operation">FL</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/insert_f.jsp" />
+				</Action>
+
+				<Action Name="rf">
+					<ModelInstance Name="BlankModel" />
+					<Parameter Name="sqltable">user</Parameter>
+					<Parameter Name="servicename">FL</Parameter>
+					<Parameter Name="operation">FL</Parameter>
+					<Forward Name="a"
+						Path="/page/jsp/soaadmin/index_b.jsp" />
+				</Action>
+
+				<Action Name="serviceCard">
+					<ModelInstance Name="BlankModel" />
+					<Forward Name="a"
+						Path="/page/jsp/soaadmin/service_card.jsp" />
+				</Action>
+				
+				<Action Name="ReqResRef">
+					<ModelInstance Name="BlankModel" />
+					<Forward Name="a"
+						Path="/page/jsp/soaadmin/service_msgref.jsp" />
+				</Action>
+				<Action Name="refresh">
+					<ModelInstance Name="BlankModel" />
+					<Forward Name="a"
+						Path="/page/jsp/soaadmin/refresh.jsp" />
+				</Action>
+				<Action Name="Auto4MName">
+					<ModelInstance Name="AuToCompleteModel" />
+					<Forward Name="a"
+						Path="/page/jsp/common/auto_complete.jsp" />
+				</Action>
+
+				<Action Name="Auto4MName1">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="sqltable">MetaData</Parameter>
+					<Parameter Name="sqlbase">
+						select mname,mcname from metadata where
+						upper(mname) like upper('#mname#')||'%' order by
+						mname asc
+					</Parameter>
+					<Parameter Name="sqlfield">mname,mcname</Parameter>
+					<Parameter Name="fieldname">mname,mcname</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Path="/page/jsp/common/auto_complete1.jsp" />
+				</Action>
+				<Action Name="RDF">
+					<ModelInstance Name="BlankModel" />
+					<Forward Name="a"
+						Path="/page/jsp/soaadmin/nofunction.jsp" />
+				</Action>
+				
+				
+			</ActionMapping>
+		</Function>
+
+
+
+	</FunctionGroup>
+</Config>

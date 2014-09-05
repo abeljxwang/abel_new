@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+	<Models>
+		<Model Name="DBMQueryModel" Type="com.cnpc.oms.model.DBQueryM" />
+		<Model Name="LModel" Type="com.cnpc.oms.model.PocLogonModel" />
+				
+		<Model Name="CMDataQueryModel" Type="org.abel.webapp.standardmodel.CmddbQuery" />
+		<Model Name="CMDataInsertModel" Type="org.abel.webapp.standardmodel.CmddbInsert" />
+		<Model Name="CMDataDeleteModel" Type="org.abel.webapp.standardmodel.CmddbDelete" />		
+		<Model Name="BlankModel" Type="org.abel.webapp.commodel.BlankModel" />
+	</Models>
+
+	<FunctionGroup>
+
+	
+
+		<Function FunctionID="SOAAdmin">
+			<Portlet Name="Controller" DefaultAction="querySLst" />
+			<ActionMapping DefaultAction="querySLst">
+				<Action Name="querySLst">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="sqltable">ServiceList/ServiceOperation</Parameter>
+					<Parameter Name="sqlbase">select A.ServiceID, A.Servicename, A.endpoint,b.operation_name from servicelist as A left join serviceoperation as B on A.serviceid=B.serviceid where  A.serviceid like '%#serviceid#%'</Parameter>
+					<Parameter Name="sqlfield">serviceid,,servicename,endpoint,operation_name</Parameter>
+					<Parameter Name="fieldname">名称,中文名,ENDPOINT,操作</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Path="/page/jsp/soaadmin/serv_index.jsp" />
+				</Action>
+			    <Action Name="insertServ">
+					<ModelInstance Name="CMDataInsertModel">
+					<Parameter Name="sqltable">servicelist</Parameter>
+					<Parameter Name="sqlbase">insert into servicelist (ServiceID, Servicename, endpoint) values ('#ServiceID#','#Servicename#', '#endpoint#')</Parameter>
+					<Parameter Name="sqlfield">ServiceID,Servicename,endpoint</Parameter>
+					<Parameter Name="fieldname">服务代码,中文名称,ENDPOINT</Parameter>
+					<Parameter Name="sqlcondition">0,1,2</Parameter>
+					<Forward Name="a" Type="action" Path="querySLst" />
+					</ModelInstance>
+				</Action>	
+			    <Action Name="delete">
+					<ModelInstance Name="CMDataDeleteModel">
+					<Parameter Name="sqltable">servicelist</Parameter>
+					<Parameter Name="sqlbase">delete from servicelist where ServiceID='#ServiceID#'</Parameter>
+					<Parameter Name="sqlfield">ServiceID</Parameter>
+					<Parameter Name="fieldname">ServiceID</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Type="action" Path="querySLst" />
+					</ModelInstance>
+				</Action>	
+			    <Action Name="add_operation_form">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="sqltable">ServiceList/ServiceOperation</Parameter>
+					<Parameter Name="sqlbase">select A.ServiceID, A.Servicename, A.endpoint,b.operation_name from servicelist as A left join serviceoperation as B on A.serviceid=B.serviceid where  A.serviceid like '%#serviceid#%'</Parameter>
+					<Parameter Name="sqlfield">serviceid,,servicename,endpoint,operation_name</Parameter>
+					<Parameter Name="fieldname">名称,中文名,ENDPOINT,操作</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Path="/page/jsp/soaadmin/serv_detailed_info.jsp" />
+				</Action>			
+
+			
+				<Action Name="queryMD">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="sqltable">metadata</Parameter>
+					<Parameter Name="sqlbase">select * from metadata where mname like '%#mname#%'</Parameter>
+					<Parameter Name="sqlfield">mname,mcname,mtype,mlength,mdesc,dftvalue</Parameter>
+					<Parameter Name="fieldname">名称,中文名,类型,长度,说明,测试值</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Path="/page/jsp/soaadmin/index.jsp" />
+				</Action>
+				<Action Name="insertform">
+					<ModelInstance Name="DBMQueryModel" />
+					<Parameter Name="sqltable">user</Parameter>
+					<Parameter Name="servicename">FL</Parameter>
+					<Parameter Name="operation">FL</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/insert_f.jsp" />
+				</Action>
+			    <Action Name="insert">
+					<ModelInstance Name="CMDataInsertModel">
+					<Parameter Name="sqltable">user</Parameter>
+					<Parameter Name="sqlbase">insert into user (USER_NAME,M_PHONE) values ('#USER_NAME#','#M_PHONE#')</Parameter>
+					<Parameter Name="sqlfield">UID,USER_NAME,M_PHONE</Parameter>
+					<Parameter Name="fieldname">UID,姓名,电话</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/report_f.jsp" />
+					</ModelInstance>
+				</Action>	
+		
+				
+				<Action Name="query">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="sqltable">user</Parameter>
+					<Parameter Name="sqlbase">select * from user</Parameter>
+					<Parameter Name="sqlfield">UID,USER_NAME,M_PHONE</Parameter>
+					<Parameter Name="fieldname">UID,姓名,电话</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/report_i.jsp" />
+				</Action>
+				<Action Name="queryd">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="sqltable">user</Parameter>
+					<Parameter Name="sqlbase">select * from user where UID=#UID#</Parameter>
+					<Parameter Name="sqlfield">UID,USER_NAME,M_PHONE</Parameter>
+					<Parameter Name="fieldname">UID,姓名,电话</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/report_i.jsp" />
+				</Action>
+				<Action Name="query4u">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="sqltable">user</Parameter>
+					<Parameter Name="sqlbase">select * from user where UID=#UID#</Parameter>
+					<Parameter Name="sqlfield">UID,USER_NAME,M_PHONE</Parameter>
+					<Parameter Name="fieldname">UID,姓名,电话</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/report_4u.jsp" />
+				</Action>
+				
+				<Action Name="init">
+					<ModelInstance Name="BlankModel" />
+					<Forward Name="a" Path="/page/jsp/soaadmin/index.jsp" />
+				</Action>
+				
+			</ActionMapping>
+		</Function>
+				<Function FunctionID="POC">
+			<Portlet Name="Controller" DefaultAction="init" />
+			<ActionMapping DefaultAction="init">
+			
+				<Action Name="init">
+					<ModelInstance Name="LModel" />
+					<Parameter Name="sqltable">DRILLING_SHIFT_Report_Detail</Parameter>
+					<Parameter Name="sqlfield">FL</Parameter>
+					<Parameter Name="operation">FL</Parameter>
+					<Forward Name="a" Type="action" Path="sample" />
+				</Action>				
+	
+				<Action Name="querym">
+					<ModelInstance Name="DBMQueryModel" />
+					<Parameter Name="sqltable">DRILLING_SHIFT_Report_Detail</Parameter>
+					<Parameter Name="servicename">FL</Parameter>
+					<Parameter Name="operation">FL</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/query.jsp" />
+				</Action>
+				<Action Name="sample">
+					<ModelInstance Name="BlankModel" />
+					<Parameter Name="sqltable">DRILLING_SHIFT_Report_Detail</Parameter>
+					<Parameter Name="servicename">FL</Parameter>
+					<Parameter Name="operation">FL</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/report_sample.jsp" />
+				</Action>				
+				<Action Name="insertform">
+					<ModelInstance Name="DBMQueryModel" />
+					<Parameter Name="sqltable">SHIFT_Report_Detail</Parameter>
+					<Parameter Name="servicename">FL</Parameter>
+					<Parameter Name="operation">FL</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/insert_f.jsp" />
+				</Action>
+			    <Action Name="insert">
+					<ModelInstance Name="CMDataInsertModel"/>
+					<Parameter Name="sqltable">SHIFT_Report_Detail</Parameter>
+					<Parameter Name="sqlbase">insert into SHIFT_Report_Detail
+					 (Detail_NO,Start_Time,Stop_Time,Task_Desc,Start_Depth,Stop_Depth,Drill_Pressure,RPM,
+					 Cylinder_Diameter,SPM,Displacement,Pump_Pressure,Mud_Density,Mud_Viscosity,API_Fluid_loss) 
+					 values
+					  ('#DETAIL_NO#',to_date('#START_TIME#','YYYY-mm-dd hh:mi'),to_date('#STOP_TIME#','YYYY-mm-dd hh:mi'),'#TASK_DESC#','#START_DEPTH#','#STOP_DEPTH#','#DRILL_PRESSURE#','#RPM#',
+					 '#CYLINDER_DIAMETER#','#SPM#','#DISPLACEMENT#','#PUMP_PRESSURE#','#MUD_DENSITY#','#MUD_VISCOSITY#','#API_FLUID_LOSS#')</Parameter>
+					<Parameter Name="sqlfield">DETAIL_NO,START_TIME,STOP_TIME,TASK_DESC,START_DEPTH,STOP_DEPTH,DRILL_PRESSURE,RPM,
+					 CYLINDER_DIAMETER,SPM,DISPLACEMENT,PUMP_PRESSURE,MUD_DENSITY,MUD_VISCOSITY,API_FLUID_LOSS</Parameter>
+					<Parameter Name="fieldname">xuhao,开始时间,结束时间,工作内容,起始井深,结束井深,钻压,转数,
+					 缸径,冲数,排量,泵压,泥浆密度,泥浆粘度,API失水</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/report_f.jsp" />
+				</Action>	
+
+				<Action Name="query">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="sqltable">SHIFT_Report_Detail</Parameter>
+					<Parameter Name="sqlbase">select * from SHIFT_Report_Detail</Parameter>
+					<Parameter Name="sqlfield">DETAIL_NO,START_TIME,STOP_TIME,TASK_DESC,START_DEPTH,STOP_DEPTH,DRILL_PRESSURE,RPM,
+					 CYLINDER_DIAMETER,SPM,DISPLACEMENT,PUMP_PRESSURE,MUD_DENSITY,MUD_VISCOSITY,API_FLUID_LOSS</Parameter>
+					<Parameter Name="fieldname">xuhao,开始时间,结束时间,工作内容,起始井深,结束井深,钻压,转数,
+					 缸径,冲数,排量,泵压,泥浆密度,泥浆粘度,API失水</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/report_i.jsp" />
+				</Action>
+
+				
+			    <Action Name="delete">
+					<ModelInstance Name="CMDataDeleteModel"/>
+					<Parameter Name="sqltable">SHIFT_Report_Detail</Parameter>
+					<Parameter Name="sqlbase">delete from SHIFT_Report_Detail where UID=#UID#</Parameter>
+					<Parameter Name="sqlfield">UID</Parameter>
+					<Parameter Name="fieldname">UID</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/blank.jsp" />
+				</Action>				
+				
+
+				<Action Name="detail">
+					<ModelInstance Name="BlankModel" />
+					<Parameter Name="servicename">TaskOperationMgr</Parameter>
+					<Parameter Name="operation">querydetailed</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/report_d.jsp" />
+				</Action>			
+				<Action Name="input">
+					<ModelInstance Name="BlankModel" />
+					<Parameter Name="servicename">TaskOperationMgr</Parameter>
+					<Parameter Name="operation">input</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/report_i.jsp" />
+				</Action>	
+				
+				
+				
+				<Action Name="read">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="sqltable">SYSTEM.COM_LOOKUPS</Parameter>
+					<Parameter Name="sqlbase">select LOOKUPID, LUTABLE,LUTYPE,LUCODE,MEANING,DSC, ENFLAG,STARTDATE,ENDDATE,CREATEDBY, CREATEDATE,UPDATEDBY,UPDATEDATE, FIELD1,FIELD2,FIELD3,FIELD4,FIELD5,DELFLAG from SYSTEM.COM_LOOKUPS WHERE nvl(DELFLAG,0) &lt;&gt; 1 AND LOOKUPID=#LOOKUPID#</Parameter>
+					<Parameter Name="sqlfield">LOOKUPID,LUTABLE,LUTYPE,LUCODE,MEANING,DSC,ENFLAG,STARTDATE,ENDDATE,CREATEDBY,CREATEDATE,UPDATEDBY,UPDATEDATE,FIELD1,FIELD2,FIELD3,FIELD4,FIELD5,DELFLAG</Parameter>
+					<Parameter Name="fieldname">ID,表名,类型,代码,含义,描述,标记,开始日期,结束日期,创建人,创建日期,更新人,更新日期,扩展域1,扩展域2,扩展域3,扩展域4,扩展域5,删除标记</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/report_i.jsp" />
+				</Action>
+				
+				
+				<Action Name="update">
+					<ModelInstance Name="BlankModel" />
+					<Parameter Name="servicename">TaskOperationMgr</Parameter>
+					<Parameter Name="operation">update</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/report_u.jsp" />
+				</Action>
+
+				<Action Name="meterial_consum">
+					<ModelInstance Name="BlankModel" />
+					<Parameter Name="servicename">TaskOperationMgr</Parameter>
+					<Parameter Name="operation">update</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/meterial/01.jsp" />
+				</Action>
+					
+				<Action Name="meterial_cm_detail">
+					<ModelInstance Name="BlankModel" />
+					<Parameter Name="servicename">TaskOperationMgr</Parameter>
+					<Parameter Name="operation">update</Parameter>
+					<Forward Name="a" Path="/page/jsp/oms/meterial/02.jsp" />
+				</Action>
+				
+												
+			</ActionMapping>
+		</Function>
+		
+	</FunctionGroup>
+</Config>

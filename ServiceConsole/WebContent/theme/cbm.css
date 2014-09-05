@@ -1,0 +1,126 @@
+
+.BD {
+	font-family:»ªÎÄÏ¸ºÚ,ºÚÌå,sans-serif;
+	font-size: 16px;
+	text-align: center;
+background: #000066;
+	color: #ffffff;
+	padding: 1px 1px 1px 0px;
+
+	border-style: solid;
+	border-width: 1px;
+	border-color: #eeeeff;
+	height: 30px;
+	width: 145px;
+	clear: both;
+	display: table-cell;
+    vertical-align: middle;
+}
+.v_cat {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	text-align: center;
+	height: 120px;
+	width: 30px;	
+	align: center;
+	color: #ffffff;
+	
+	border-style: solid;
+	border-width: 1px;
+	border-color: #eeeeff;
+	clear: both
+	padding: 1px 1px 0px 0px;
+	display: table-cell;
+    vertical-align: middle;
+	
+}
+.cat_spac {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	vertical-align:top;
+	align: center;
+	border-bottom:1px solid #91A7B4;  
+	border-top:1px solid #91A7B4;  
+	border-left:0px solid #91A7B4;  
+	border-right:1px solid #91A7B4;
+	padding: 1px 1px 1px 1px;
+}
+
+.head_title {
+	font-size: 12pt;
+	text-align: center;
+	COLOR: #FFFFFF;
+	font-family: 微软雅黑;
+	padding: 3px 15px;
+}
+
+.FA {
+	FONT-SIZE: 11pt;
+	COLOR: #2F2727;
+	text-align: center;
+	TEXT-TRANSFORM: capitalize;
+	padding: 1px 10px;
+	height: 18px;
+	border: 1px solid #000066;
+	border-radius: 10px;
+	margin: 3px 6px;
+	 background: #ffffff;
+	  opacity: 0.8;
+
+	
+	
+}
+
+.text_page_info {
+	font-size: 8pt;
+	text-align: right;
+	COLOR: #000000;
+	padding: 1px 15px;
+}
+
+.text_table_info {
+	font-size: 8pt;
+	text-align: left;
+	COLOR: #000000;
+	padding: 1px 10px;
+}
+
+.box_header {
+	background: #000066;
+	border-top-left-radius: 10px;
+	border-top-right-radius: 10px;
+	height: 25px;
+	font-size: 12pt;
+	text-align: center;
+	COLOR: #FFFFFF;
+	font-family: 微软雅黑;
+	padding: 3px 15px;
+}
+
+.boxcontent_1 {
+	padding: 3px 15px;
+	display: block;
+	background: #ffffff;
+	border: 0 solid #000066;
+	border-width: 1 1 1 1px;
+	font-size: 10pt;
+	text-align: center;
+	COLOR: #000044;
+	font-family: 微软雅黑;
+	padding: 3px 15px;
+	border-bottom-left-radius: 8px;
+	border-bottom-right-radius: 8px;
+}
+
+.form_field_1 {
+	padding: 0px;
+	font-size: 10pt;
+	text-align: left;
+	margin: 1px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #eeeeff;
+	height: 18px;
+	width: 200px;
+	clear: both
+}

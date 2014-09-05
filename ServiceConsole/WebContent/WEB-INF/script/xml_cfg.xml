@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+	<ModelModelGroup>
+		<Model Name="DBMQueryModel"
+			Type="org.abel.service.soamodel.DBQuery" />
+		<Model Name="DBMQueryListModel"
+			Type="org.abel.service.soamodel.DBQueryList" />
+		<Model Name="FileListModel"
+			Type="org.abel.service.soamodel.FileList" />
+		<Model Name="DBMQueryListModel4FD"
+			Type="org.abel.service.soamodel.DBQueryList4FD" />
+
+		<Model Name="Model1" Type="org.abel.service.soamodel.BlankMD" />
+
+	</ModelModelGroup>
+
+	<ServiceGroup>
+		<Service Name="ServiceQuery">
+			<Operation Name="queryEProfile">
+				<ModelInstance Name="DBMQueryListModel" />
+				<Parameter Name="sqltable">MessageElement</Parameter>
+				<Parameter Name="sqlbase">
+					select SN, MNAME name, DF_VALUE value, SUBFLAG,
+					RPTTIME, ISNULL from MSGELEMENTSTRUCTURE where
+					SUBFLAG=0 and EID = '#EID#' union select SN, A.ENAME
+					name, A.CNAME value, B.SUBFLAG, B.RPTTIME, B.ISNULL
+					from MSGELEMENT A, MSGELEMENTSTRUCTURE B where
+					SUBFLAG=1 and B.SUBEID=A.EID and B.EID = '#EID#'
+					order by sn
+				</Parameter>
+				<Parameter Name="sqlfield">
+					SN,name,value,SUBFLAG,RPTTIME,ISNULL,EID
+				</Parameter>
+				<Parameter Name="responsekey">
+					SN,name,value,SUBFLAG,RPTTIME,ISNULL,EID
+				</Parameter>
+				<Parameter Name="sqlcondition">6</Parameter>
+			</Operation>
+			<Operation Name="querySProfile">
+				<ModelInstance Name="DBMQueryListModel" />
+				<Parameter Name="sqltable">MessageElement</Parameter>
+				<Parameter Name="sqlbase">
+					select SN, MNAME name, DF_VALUE value, SUBFLAG,
+					RPTTIME, ISNULL from MSGELEMENTSTRUCTURE where
+					SUBFLAG=0 and EID = '#EID#' union select SN, A.ENAME
+					name, A.CNAME value, B.SUBFLAG, B.RPTTIME, B.ISNULL
+					from MSGELEMENT A, MSGELEMENTSTRUCTURE B where
+					SUBFLAG=1 and B.SUBEID=A.EID and B.EID = '#EID#'
+					order by sn
+				</Parameter>
+				<Parameter Name="sqlfield">
+					SN,name,value,SUBFLAG,RPTTIME,ISNULL,EID
+				</Parameter>
+				<Parameter Name="responsekey">
+					SN,name,value,SUBFLAG,RPTTIME,ISNULL,EID
+				</Parameter>
+				<Parameter Name="sqlcondition">6</Parameter>
+			</Operation>
+
+			<Operation Name="list">
+				<ModelInstance Name="DBMQueryListModel" />
+				<Parameter Name="sqltable">Userbasicinfo</Parameter>
+				<Parameter Name="sqlbase">
+					select
+					Error_Code,TRIM(SUBSTR(Error_Msg,1,30)),SUBSTR(Suggestion,1,30),NAME
+					from ErrorBasicMsg A,SystemREC B where
+					A.SYS_ID=B.SYS_ID and A.Sys_ID like '%#Sys_ID#' and
+					Error_Code > '#Error_Code#' order by Error_Code
+				</Parameter>
+				<Parameter Name="sqlfield">
+					Error_Code,Error_Msg,Suggestion,NAME,Sys_ID
+				</Parameter>
+				<Parameter Name="responsekey">
+					Error_Code,Error_Msg,Suggestion,NAME,Sys_ID
+				</Parameter>
+				<Parameter Name="sqlcondition">3</Parameter>
+			</Operation>
+
+
+		</Service>
+		<Service Name="ErrorCode">
+			<Operation Name="list">
+				<ModelInstance Name="DBMQueryListModel" />
+				<Parameter Name="sqltable">Userbasicinfo</Parameter>
+				<Parameter Name="sqlbase">
+					select
+					Sys_ID,Error_Cat,Error_Cat_Sub,Error_Level,Error_Code,Error_Msg,Suggestion
+					from ErrorBasicMsg where Sys_ID like '%#Sys_ID#'
+				</Parameter>
+				<Parameter Name="sqlfield">
+					Sys_ID,Error_Cat,Error_Cat_Sub,Error_Level,Error_Code,Error_Msg,Suggestion
+				</Parameter>
+				<Parameter Name="responsekey">
+					Sys_ID,Error_Cat,Error_Cat_Sub,Error_Level,Error_Code,Error_Msg,Suggestion
+				</Parameter>
+				<Parameter Name="sqlcondition">0</Parameter>
+			</Operation>
+		</Service>
+		<Service Name="SysCatCode">
+			<Operation Name="sys">
+				<ModelInstance Name="DBMQueryListModel" />
+				<Parameter Name="sqltable">CATEGORY</Parameter>
+				<Parameter Name="sqlbase">
+					select CAT_ID,CAT_NAME from CATEGORY where UP_CAT_ID
+					IS NULL
+				</Parameter>
+				<Parameter Name="sqlfield">CAT_ID,CAT_NAME</Parameter>
+				<Parameter Name="responsekey">
+					CAT_ID,CAT_NAME
+				</Parameter>
+				<Parameter Name="sqlcondition">0</Parameter>
+			</Operation>
+			<Operation Name="errorcat">
+				<ModelInstance Name="DBMQueryListModel" />
+				<Parameter Name="sqltable">CATEGORY</Parameter>
+				<Parameter Name="sqlbase">
+					select CAT_ID,CAT_NAME,UP_CAT_ID from CATEGORY where
+					UP_CAT_ID ='#UP_CAT_ID#'
+				</Parameter>
+				<Parameter Name="sqlfield">
+					CAT_ID,CAT_NAME,UP_CAT_ID
+				</Parameter>
+				<Parameter Name="responsekey">
+					CAT_ID,CAT_NAME,UP_CAT_ID
+				</Parameter>
+				<Parameter Name="sqlcondition">2</Parameter>
+			</Operation>
+			<Operation Name="codegen">
+				<ModelInstance Name="DBMQueryListModel" />
+				<Parameter Name="sqltable">ERRORBASICMSG</Parameter>
+				<Parameter Name="sqlbase">
+					select case when max(ERROR_CODE) is null then
+					INT('#Cat_ID_C#001') else
+					INT(max(SUBSTR(ERROR_CODE,6)))+1 end from
+					ERRORBASICMSG where sys_id='#Sys_ID#' and ERROR_CODE
+					like '%#Cat_ID_C#%'
+				</Parameter>
+				<Parameter Name="sqlfield">
+					Error_Code,Cat_ID_C,Sys_ID
+				</Parameter>
+				<Parameter Name="responsekey">
+					Error_Code,Cat_ID_C,Sys_ID
+				</Parameter>
+				<Parameter Name="sqlcondition">1,2</Parameter>
+			</Operation>
+
+		</Service>
+
+		<Service Name="FileMgr">
+			<Operation Name="list">
+				<ModelInstance Name="FileListModel" />
+				<Parameter Name="filelocation">c:\temp</Parameter>
+				<Parameter Name="sqlfield">
+					sn,filename,length,Date
+				</Parameter>
+				<Parameter Name="responsekey">
+					sn,filename,length,Date
+				</Parameter>
+			</Operation>
+
+			<Operation Name="down">
+				<ModelInstance Name="DBMQueryListModel4FD" />
+				<Parameter Name="sqltable">Userbasicinfo</Parameter>
+				<Parameter Name="sqlbase">
+					select
+					Name,Error_Cat,Error_Cat_Sub,Error_Level,Error_Code,Error_Msg,Suggestion,'--'
+					Note,A.Sys_ID Sys_ID from ErrorBasicMsg A,SystemREC
+					B where A.SYS_ID=B.SYS_ID and A.Sys_ID ='#Sys_ID#'
+				</Parameter>
+				<Parameter Name="sqlfield">
+					Name,Error_Cat,Error_Cat_Sub,Error_Level,Error_Code,Error_Msg,Suggestion,Note,Sys_ID
+				</Parameter>
+				<Parameter Name="responsekey">
+					Name,Error_Cat,Error_Cat_Sub,Error_Level,Error_Code,Error_Msg,Suggestion,Note,Sys_ID
+				</Parameter>
+				<Parameter Name="sqlcondition">8</Parameter>
+			</Operation>
+		</Service>
+	</ServiceGroup>
+</Config>

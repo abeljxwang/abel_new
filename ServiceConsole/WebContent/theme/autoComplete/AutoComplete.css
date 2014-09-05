@@ -1,0 +1,26 @@
+.floor
+{
+    position: absolute;
+	font-family:"ËÎÌו";
+	font-size:12px;
+    background-color:white;
+    border-left: 1px solid #666666;
+	border-right: 1px solid #666666;
+	border-bottom: 1px solid #666666;
+    overflow: auto;
+	
+}
+.unselected
+{
+    background-color: white;
+	font-size:12px;
+	line-height:1.5;
+	color:#336699;
+}
+.selected
+{
+    background-color: dodgerblue;
+    color: white;
+	font-size:12px;
+	line-height:1.5;
+}

@@ -1,0 +1,80 @@
+
+TD {
+	FONT-SIZE: 9pt;
+
+}
+
+
+
+.ccbTitle {
+	FONT-SIZE: 20pt;
+	COLOR: #6666CC;
+	FONT-FAMILY: 'Arial';
+	TEXT-TRANSFORM: capitalize
+}
+
+.tranTitle {
+	FONT-SIZE: 16pt;
+	COLOR: #222266;
+	FONT-FAMILY: '华文细黑';
+	TEXT-TRANSFORM: capitalize
+}
+
+.ccbTitle2 {
+	FONT-SIZE: 12pt;
+	TEXT-TRANSFORM: capitalize
+}
+
+.dirTitle {
+	FONT-SIZE: 12pt;
+	COLOR: #6666CC;
+	FONT-FAMILY: '华文细黑';
+	TEXT-TRANSFORM: capitalize
+}
+
+.FTitle {
+	FONT-SIZE: 13px;
+	COLOR: #FFFFFF;
+	FONT-FAMILY: '华文细黑'
+}
+
+
+
+BODY {
+	FONT-SIZE: 12pt;
+	COLOR: #000000;
+	FONT-FAMILY: 'Arial';
+	TEXT-TRANSFORM: capitalize
+}
+
+
+
+
+
+.tcolor{
+background-color: #DDDDDD
+}
+
+.groovedouble {
+border-style: groove;
+border-width: 2px
+}
+
+
+
+
+TEXTAREA {
+	font-family: Arial;
+	font-size: 10pt;
+	border-top-color: red;
+	text-align: left;
+	background-color: ddddff;
+	margin: 1px;
+	border-style: solid;
+	border-width: 1px;
+	border-bottom-color: olive;
+	border-right-color: olive;
+	text-indent: 3px;
+	padding: 1px;
+	border-left-color: olive;
+}	

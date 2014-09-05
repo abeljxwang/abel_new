@@ -1,0 +1,57 @@
+
+BODY {
+	margin-top: 10px;
+	margin-left: 10px;
+	background-color: #ffffff;
+	color: #000000;
+	font-family : Arial Narrow;
+	text-align : left;
+	font-size : 12pt;
+}
+
+
+.pageTitle
+{
+	font-family: Impact;
+	font-size: 26pt;
+}
+.sectionTitle
+{
+	font-family: Impact;
+	font-size: 14pt;
+}
+
+
+
+.codeExampleTable {
+	border: 1px solid Silver;
+	width : 98%;
+}
+
+TABLE
+{
+	padding-top: 0px;
+	padding-left: 0px;
+	padding-bottom: px;
+	font-family: Arial, Century;
+	font-size : 11pt;
+	border-color: teal;
+	border-style: double;
+	border-width: thin;
+}
+
+
+TD
+{
+	font-family: Arial, Century;
+	font-size : 10pt;
+
+}
+
+
+
+.codeFragment
+{
+	font-family : System;
+	font-size : 10pt;
+}
