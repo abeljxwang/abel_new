@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ContentAccessManager>
+	<policy id="001">
+		<username>User</username>
+		<contentname>Func</contentname>
+		<rule id="01" option="yes">User.Dept AM Content.Dept</rule>
+		<rule id="02" option="yes">CURRENTDATE GT Content.StartTime</rule>
+		<rule id="03" option="yes">CURRENTTIME LT 09:00</rule>
+		<rule id="04" option="yes">CURRENTDATE LT Content.EndTime</rule>
+		<rule id="05" option="yes">User.Title AM ITA</rule>
+	</policy>
+	<policy id="002">
+		<username>User</username>
+		<contentname>Func</contentname>
+		<rule id="01" option="AND" type="fm">User.Dept AM Content.Dept</rule>
+		<rule id="02" option="AND" type="fm">CURRENTDATE GT Content.StartTime</rule>
+		<rule id="03" option="AND" type="fm">CURRENTTIME GT 09:00</rule>
+		<rule id="04" option="AND" type="fm">CURRENTDATE LT Content.EndTime</rule>
+	</policy>
+	<policy id="003">
+		<username>User</username>
+		<contentname>Func</contentname>
+		<rule id="01" option="AND" type="fm">User.Dept AM Content.Dept</rule>
+		<rule id="02" option="AND" type="fm">CURRENTDATE GT Content.StartTime</rule>
+		<rule id="03" option="AND" type="fm">CURRENTTIME GT 09:00</rule>
+		<rule id="04" option="AND" type="fm">CURRENTDATE LT Content.EndTime</rule>
+		<rule id="05" option="OR" type="fm">User.Title AM ITA,Manager</rule>
+
+	</policy>
+</ContentAccessManager>

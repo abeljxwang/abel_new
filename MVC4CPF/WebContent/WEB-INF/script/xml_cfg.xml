@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+	<Models>
+		<Model Name="DBMQueryModel" Type="com.cnpc.oms.model.DBQueryM" />
+		<Model Name="AuToCompleteModel" Type="org.abel.webapp.commodel.AutoColplete" />
+		<Model Name="CMDataQueryModel" Type="org.abel.webapp.standardmodel.CmddbQuery" />
+		<Model Name="CMDataDeleteModel" Type="org.abel.webapp.standardmodel.CmddbDelete" />
+		<Model Name="BlankModel" Type="org.abel.webapp.commodel.BlankModel" />
+	</Models>
+
+	<FunctionGroup>
+		<Function FunctionID="XML">
+			<ActionMapping DefaultAction="queryM">
+				<Action Name="queryEI">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="sqltable">ErrorBasicMsg</Parameter>
+					<Parameter Name="sqlbase">select Error_Code,Error_Msg,Error_Level,Sys_ID from ErrorBasicMsg where  Error_Code like '%#Error_Code#%'</Parameter>
+					<Parameter Name="sqlfield">Error_Code,Error_Msg,Sys_ID</Parameter>
+					<Parameter Name="fieldname">错误代码,信息摘要,系统</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					
+					<Forward Name="a"
+						Path="/page/jsp/erradmin/error_info.jsp" />
+					<Forward Name="a"
+						Path="/page/jsp/xml/meta_index.jsp" />
+				</Action>
+			</ActionMapping>
+		</Function>
+
+	</FunctionGroup>
+</Config>

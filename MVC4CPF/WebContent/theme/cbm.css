@@ -1,0 +1,80 @@
+.BD {
+	font-family: 华文细黑, 华文楷体, 楷体_GB2312,sans-serif;
+	font-size: 14px;
+	vertical-align:middle;
+	text-align: center;
+	height:20px;
+	width:100px;
+	color: #666;
+	border-bottom:1px solid #91A7B4;  
+	border-top:1px solid #91A7B4;  
+	border-left:1px solid #91A7B4;  
+	border-right:1px solid #91A7B4;
+	padding: 1px 1px 1px 1px;
+
+}
+.CAT {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	vertical-align:middle;
+	height:100%;
+	width:100px;
+	color: #666;
+	border-bottom:1px solid #91A7B4;  
+	border-top:1px solid #91A7B4;  
+	border-left:1px solid #91A7B4;  
+	border-right:1px solid #91A7B4;
+	padding: 0px 0px 1px 2px;
+
+}
+.FA {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	text-vertical-align:middle;
+	text-align: center;
+	height:18px;
+	width:90px;
+	color: #666;
+	border-bottom:1px solid #91A7B4;  
+	border-top:1px solid #91A7B4;  
+	border-left:1px solid #91A7B4;  
+	border-right:1px solid #91A7B4;
+	background-color: #FFFFFF;
+	padding: 2px 2px 2px 2px;
+	margin-top:2px;
+	margin-right:0px;
+
+}
+.B_lay {
+	font-family: 华文楷体, 楷体_GB2312, 宋体,sans-serif;
+	font-size: 14px;
+	text-align: center;
+	height:80px;
+	width:20px;
+	writing-mode: tb-rl;
+}
+
+
+
+.dtree img {
+	border: 0px;
+	vertical-align: middle;
+}
+.dtree a {
+	color: #333;
+	text-decoration: none;
+}
+.dtree a.node, .dtree a.nodeSel {
+	white-space: nowrap;
+	padding: 1px 2px 1px 2px;
+}
+.dtree a.node:hover, .dtree a.nodeSel:hover {
+	color: #333;
+	text-decoration: underline;
+}
+.dtree a.nodeSel {
+	background-color: #c0d2ec;
+}
+.dtree .clip {
+	overflow: hidden;
+}

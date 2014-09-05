@@ -1,0 +1,80 @@
+#container {
+	margin: 1pt;
+	border: 1pt solid black;
+	padding: 1pt;
+}
+
+#container1 {
+	margin: 1pt;
+	border: 1pt solid black;
+	padding: 1pt;
+}
+
+#result {
+	padding: 0pt;
+	background-color: #ffffff;
+}
+
+
+#xsnazzy {
+	background: transparent;
+	margin: 0.3em;
+}
+
+.xtop,.xbottom {
+	display: block;
+	background: transparent;
+	font-size: 1px;
+}
+
+.xb1,.xb2,.xb3,.xb4,.xtb1,.xtb2,.xtb3,.xtb4  {
+	display: block;
+	overflow: hidden;
+}
+
+.xb1,.xb2,.xb3,.xtb1,.xtb2,.xtb3 {
+	height: 1px;
+}
+
+.xtb2,.xtb3,.xtb4 {
+	background: #eeeeee;
+	border-left: 1px solid #08c;
+	border-right: 1px solid #08c;
+}
+
+.xb2,.xb3,.xb4 {
+	background: #ffffff;
+	border-left: 1px solid #08c;
+	border-right: 1px solid #08c;
+}
+
+.xb1,.xtb1 {
+	margin: 0 5px;
+	background: #08c;
+}
+
+.xb2,.xtb2 {
+	margin: 0 3px;
+	border-width: 0 2px;
+}
+
+.xb3,.xtb3 {
+	margin: 0 2px;
+}
+
+.xb4,.xtb4 {
+	height: 2px;
+	margin: 0 1px;
+}
+.xboxcontent {
+	display: block;
+	background: #eeeeee;
+	border: 0 solid #08c;
+	border-width: 0 1px;
+}
+.Cxboxcontent1 {
+	display: block;
+	background: #ffffff;
+	border: 0 solid #08c;
+	border-width: 1 1 0 1px;
+}

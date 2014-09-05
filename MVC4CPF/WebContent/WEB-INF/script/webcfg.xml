@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Config>
+	<Models>
+		<Model Name="LModel"
+			Type="com.ibm.ais.soa.commonmodel.PocLogonModel" />
+		<Model Name="LGOUTModel"
+			Type="com.ibm.ais.soa.commonmodel.PocLogOutModel" />
+		<Model Name="AuToCompleteModel"
+			Type="org.abel.webapp.commodel.AutoColplete" />
+		<Model Name="ServiceCard"
+			Type="org.abel.webapp.commodel.ServCard" />
+			
+		<Model Name="CMDataQueryModel"
+			Type="org.abel.webapp.standardmodel.CmddbQuery" />
+		<Model Name="CMDataInsertModel"
+			Type="org.abel.webapp.standardmodel.CmddbInsert" />
+		<Model Name="CMDataDeleteModel"
+			Type="org.abel.webapp.standardmodel.CmddbDelete" />
+		<Model Name="CMDataUpdateModel"
+			Type="org.abel.webapp.standardmodel.CmddbUpdate" />
+		<Model Name="CMDataQueryModelMP"
+			Type="org.abel.webapp.commodel.CmddbQueryMP" />
+		<Model Name="CMDataU_IModel"
+			Type="org.abel.webapp.commodel.CmddbU_I" />
+						
+		<Model Name="BlankModel"
+			Type="org.abel.webapp.commodel.BlankModel" />
+
+		<Model Name="CMDataXAModel"
+			Type="org.abel.webapp.commodel.CmddbXA" />
+	</Models>
+
+	<FunctionGroup>
+
+		<Function FunctionID="View">
+			<Portlet Name="Controller" DefaultAction="init" />
+			<ActionMapping DefaultAction="init">
+				<Action Name="init">
+					<ModelInstance Name="BlankModel" />
+					<Forward Name="a"
+						Path="/page/jsp/mvc/a1.jsp" />
+				</Action>
+
+				<Action Name="b">
+					<ModelInstance Name="BlankModel" />
+					<Forward Name="a"
+						Path="/page/jsp/mvc/abc.jsp" />
+				</Action>
+
+				<Action Name="noFuncInfo">
+					<ModelInstance Name="BlankModel" />
+					<Forward Name="a"
+						Path="/page/jsp/erradmin/no_func.jsp" />
+				</Action>
+
+			</ActionMapping>
+		</Function>
+
+	</FunctionGroup>
+</Config>
