@@ -21,7 +21,7 @@ import java.io.*;
  */
 public class DBHandler {
 	boolean autocf = false;
-	static String objencode = "GBK";
+	static String objencode = "UTF-8";
 	static String oriencode = "GBK";
 	/**
 	 * Constructor for DBHandler.

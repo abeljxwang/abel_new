@@ -141,7 +141,7 @@ public class CmddbQueryMP extends ModelBase {
 		}catch(Exception ee){
 			
 		}
-		//System.out.println(sql+"---------------"+ppkv);
+		System.out.println(sql+"---------------"+ppkv);
 		response.setRResult("metadata", cmd);
 
 		DBHandler dbh = new DBHandler();

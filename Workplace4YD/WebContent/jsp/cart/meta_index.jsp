@@ -3,7 +3,7 @@
 <%@ page import="java.util.*,org.abel.webapp.db.*"%>
 <%@ taglib uri="/WEB-INF/tld/portlet.tld" prefix="portletAPI"%>
 <portletAPI:init />
-<link rel="StyleSheet" href="/ServiceConsole/theme/sermgr.css" type="text/css" />
+<link rel="StyleSheet" href="/Workplace4YD/theme/sermgr.css" type="text/css" />
 
 <style>
 

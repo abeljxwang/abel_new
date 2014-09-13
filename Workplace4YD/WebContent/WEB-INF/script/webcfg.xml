@@ -81,5 +81,171 @@
 			</ActionMapping>
 		</Function>
 
+		<Function FunctionID="UserMgr">
+			<Portlet Name="Controller" DefaultAction="init" />
+			<ActionMapping DefaultAction="init">
+				<Action Name="init">
+					<ModelInstance Name="BlankModel" />
+					<Forward Name="a"
+						Path="/jsp/aaa.jsp" />
+				</Action>
+
+				<Action Name="View">
+					<ModelInstance Name="CMDataQueryModelMP" />
+					<Parameter Name="sqltable">userbasicinfo</Parameter>
+					<Parameter Name="sqlbase">
+						 SELECT user_id,name,cname,GENDER,company, VALIDFOR,  M_PHOME  FROM test.userbasicinfo where name like '%#name#%'; 
+					</Parameter>
+					<Parameter Name="sqlfield">
+						user_id,name,cname,GENDER,company,VALIDFOR,M_PHOME
+					</Parameter>
+					<Parameter Name="fieldname">
+						user_ID,名称,中文名(中文短名),性别,公司,有效性,电话
+					</Parameter>
+					<Parameter Name="sqlcondition">1</Parameter>
+					<Forward Name="a"
+						Path="/jsp/admin/meta_index.jsp" />
+				</Action>
+
+				<Action Name="Add">
+					<ModelInstance Name="CMDataInsertModel" />
+					<Parameter Name="sqltable">userbasicinfo</Parameter>
+					<Parameter Name="sqlbase">
+						insert into userbasicinfo (user_id,name,cname,GENDER,company, VALIDFOR,  M_PHOME) values ('#user_id#','#name#','#cname#',#GENDER#,'#company#','#VALIDFOR#','#M_PHOME#')
+					</Parameter>
+					<Parameter Name="sqlfield">
+						user_id,name,cname,GENDER,company,VALIDFOR,M_PHOME
+					</Parameter>
+					<Parameter Name="fieldname">
+						user_ID,名称,中文名(中文短名),性别,公司,有效性,电话
+					</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Type="action" Path="View" />
+				</Action>
+				<Action Name="Auth">
+					<ModelInstance Name="LModel" />
+					<Forward Name="a"
+						Path="/jsp/aaa.jsp" />
+				</Action>
+				<Action Name="PwdReset">
+					<ModelInstance Name="LModel" />
+					<Forward Name="a"
+						Path="/jsp/aaa.jsp" />
+				</Action>
+				<Action Name="noFuncInfo">
+					<ModelInstance Name="BlankModel" />
+					<Forward Name="a"
+						Path="/jsp/erradmin/no_func.jsp" />
+				</Action>
+
+			</ActionMapping>
+		</Function>
+		
+		<Function FunctionID="FunctionTree">
+			<Portlet Name="Controller" DefaultAction="init" />
+			<ActionMapping DefaultAction="init">
+				<Action Name="init">
+					<ModelInstance Name="BlankModel" />
+					<Forward Name="a"
+						Path="/jsp/aaa.jsp" />
+				</Action>
+
+				<Action Name="View">
+					<ModelInstance Name="CMDataQueryModel" />
+					<Parameter Name="maxcols">1000</Parameter>
+					<Parameter Name="sqltable">userbasicinfo</Parameter>
+					<Parameter Name="sqlbase">
+						 SELECT FUNCID,UP_FUNCID,FUNCNAME,F_DESC,FUNC_LINK,CATALOG FROM test.func_tree; 
+					</Parameter>
+					<Parameter Name="sqlfield">
+						FUNCID,UP_FUNCID,FUNCNAME,F_DESC,FUNC_LINK,CATALOG
+					</Parameter>
+					<Parameter Name="fieldname">
+						user_ID,父级功能,名称,描述,url,分类
+					</Parameter>
+					<Parameter Name="sqlcondition">1</Parameter>
+						<Forward Name="a" Path="/jsp/admin/catalog_index.jsp" />
+				</Action>
+				<Action Name="addC">
+					<ModelInstance Name="CMDataInsertModel" />
+					<Parameter Name="sqltable">
+						SERVICECATALOG
+					</Parameter>
+					<Parameter Name="sqlbase">
+						insert into func_tree (FUNCID,UP_FUNCID,FUNCNAME,F_DESC,FUNC_LINK,CATALOG) values ((select (case
+						when max(b.funcid)+1 is null then 10 else
+						max(b.funcid)+1 end ) from
+						func_tree b),#UP_FUNCID#, '#FUNCNAME#','#F_DESC#','#FUNC_LINK#','#CATALOG#')
+					</Parameter>
+					<Parameter Name="sqlfield">
+						FUNCID,UP_FUNCID,FUNCNAME,F_DESC,FUNC_LINK,CATALOG
+					</Parameter>
+					<Parameter Name="fieldname">
+						FUNCID,UP_FUNCID,FUNCNAME,F_DESC,FUNC_LINK,CATALOG
+					</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Type="action" Path="View" />
+				</Action>
+				<Action Name="delC">
+					<ModelInstance Name="CMDataDeleteModel" />
+					<Parameter Name="sqltable">
+						SERVICECATALOG
+					</Parameter>
+					<Parameter Name="sqlbase">
+						delete from func_tree where
+						FUNCNAME='#FUNCNAME#' and FUNCID =
+						#FUNCID#
+					</Parameter>
+					<Parameter Name="sqlfield">
+						FUNCNAME,FUNCID
+					</Parameter>
+					<Parameter Name="fieldname">
+						FUNCNAMEe,FUNCID
+					</Parameter>
+					<Parameter Name="sqlcondition">0,1</Parameter>
+					<Forward Name="a" Type="action" Path="View" />
+				</Action>
+				<Action Name="updateC">
+					<ModelInstance Name="CMDataUpdateModel" />
+					<Parameter Name="sqltable">
+						func_tree
+					</Parameter>
+					<Parameter Name="sqlbase">
+
+						UPDATE func_tree SET
+						FUNCNAME='#FUNCNAME#',F_DESC='#F_DESC#',FUNC_LINK='#FUNC_LINK#',CATALOG='#CATALOG#',UP_FUNCID=#UP_FUNCID#
+						  where FUNCID = #FUNCID#
+					</Parameter>
+					<Parameter Name="sqlfield">
+						FUNCNAME,FUNCID,FUNC_LINK,F_DESC,CATALOG,UP_FUNCID
+					</Parameter>
+					<Parameter Name="fieldname">
+						FUNCNAME,FUNCID,FUNC_LINK,F_DESC,CATALOG,UP_FUNCID
+					</Parameter>
+					<Parameter Name="sqlcondition">0,1</Parameter>
+					<Forward Name="a" Type="action" Path="View" />
+				</Action>
+				<Action Name="Add">
+					<ModelInstance Name="CMDataInsertModel" />
+					<Parameter Name="sqltable">userbasicinfo</Parameter>
+					<Parameter Name="sqlbase">
+						insert into userbasicinfo (user_id,name,cname,GENDER,company, VALIDFOR,  M_PHOME) values ('#user_id#','#name#','#cname#',#GENDER#,'#company#','#VALIDFOR#','#M_PHOME#')
+					</Parameter>
+					<Parameter Name="sqlfield">
+						user_id,name,cname,GENDER,company,VALIDFOR,M_PHOME
+					</Parameter>
+					<Parameter Name="fieldname">
+						user_ID,名称,中文名(中文短名),性别,公司,有效性,电话
+					</Parameter>
+					<Parameter Name="sqlcondition">0</Parameter>
+					<Forward Name="a" Type="action" Path="View" />
+				</Action>
+
+			</ActionMapping>
+		</Function>
+		
+		
+		
+		
 	</FunctionGroup>
 </Config>
