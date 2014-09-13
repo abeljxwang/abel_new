@@ -1,0 +1,75 @@
+@media screen and (max-width:980px)
+{
+#pagewrap {
+	width: 95%;
+}
+#content {
+	padding: 3% 4%; width: 60%;
+}
+#sidebar {
+	width: 30%;
+}
+#sidebar .widget {
+	padding: 8% 7%; margin-bottom: 10px;
+}
+.video embed {
+	width: 100%; height: auto; min-height: 300px;
+}
+.video object {
+	width: 100%; height: auto; min-height: 300px;
+}
+.video iframe {
+	width: 100%; height: auto; min-height: 300px;
+}
+}
+@media screen and (max-width:650px)
+{
+#header {
+	height: auto;
+}
+#searchform {
+	top: 5px; height: 40px; right: 0px; position: absolute; z-index: 100;
+}
+#searchform #s {
+	width: 70px;
+}
+#searchform #s:focus {
+	width: 150px;
+}
+#main-nav {
+	position: static;
+}
+#site-logo {
+	margin: 15px 100px 5px 0px; position: static;
+}
+#site-description {
+	margin: 0px 0px 15px; position: static;
+}
+#content {
+	margin: 20px 0px; width: auto; float: none;
+}
+#sidebar {
+	margin: 0px; width: 100%; float: none;
+}
+#sidebar .widget {
+	margin: 0px 0px 10px; padding: 3% 4%;
+}
+.video embed {
+	min-height: 250px;
+}
+.video object {
+	min-height: 250px;
+}
+.video iframe {
+	min-height: 250px;
+}
+}
+@media screen and (max-width:480px)
+{
+html {
+	-webkit-text-size-adjust: none;
+}
+#main-nav a {
+	padding: 10px 8px; font-size: 90%;
+}
+}
